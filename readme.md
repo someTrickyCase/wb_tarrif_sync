@@ -22,8 +22,8 @@
 1. Клонирование репозитория
 
 ```bash
-  git clone <your-repository-url>
-  cd <repository-name>
+  git clone https://github.com/someTrickyCase/wb_tarrif_sync.git
+  cd wb_tarrif_sync
 ```
 
 2. Настройка переменных окружения
