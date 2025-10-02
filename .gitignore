@@ -1,5 +1,9 @@
-# build
+# build & logs
+/logs
 /build
 
 #node_modules
 /node_modules
+
+#environments
+.env

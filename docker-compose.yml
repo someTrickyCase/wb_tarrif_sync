@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  cron:
+    build: .
+    command: |
+      echo "0 */3 * * * cd /app && npm run sync-sheets" >> /etc/crontabs/root &&
+      echo "0 * * * * cd /app && npm run sync-tariffs" >> /etc/crontabs/root &&
+      crond -f -l 2
+    env_file:
+      - .env
+    depends_on:
+      - app
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

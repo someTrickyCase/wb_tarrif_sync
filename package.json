@@ -1,23 +1,32 @@
 {
-	"name": "wc_batch_requests",
+	"name": "wb_tariffs_service",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev": "npm run build:live",
-		"build": "tsc -p .",
-		"build:live": "nodemon --watch 'app/**/*.ts' --exec 'ts-node' app/index.ts",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"dev": "ts-node -r tsconfig-paths/register src/main.ts",
+    "start": "ts-node -r tsconfig-paths/register src/main.ts",
+		"build": "tsc",
+		"build:live": "nodemon --watch 'src/**/*' --ext ts,json --exec ts-node -r tsconfig-paths/register src/main.ts",
+		"sync-tariffs": "ts-node -r tsconfig-paths/register src/cli/syncTariffs.ts",
+		"sync-sheets": "ts-node -r tsconfig-paths/register src/cli/updateGoogleSheets.ts",
+		"migrate": "knex migrate:latest",
+		"migrate:make": "knex migrate:make"
 	},
-	"author": "",
-	"license": "ISC",
+	"author": "Poskrebyshev Kirill",
+	"license": "",
 	"devDependencies": {
 		"@types/node": "^24.0.1",
+		"@types/pg": "^8.15.5",
 		"ts-node": "^10.9.2",
 		"typescript": "^5.8.3"
 	},
 	"dependencies": {
 		"dotenv": "^16.5.0",
-		"nodemon": "^3.1.10"
+		"googleapis": "^161.0.0",
+		"knex": "^3.1.0",
+		"nodemon": "^3.1.10",
+		"pg": "^8.16.3",
+		"tsconfig-paths": "^4.2.0"
 	}
 }
